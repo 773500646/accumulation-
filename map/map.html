@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *,h2{border:0;padding:0;margin:0;}
+        input,button,select{height:30px;border:1px solid black;padding:0;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding:0 10px!important;
+        }
+        input{height: 28px;}
+        #r-result{
+            width: 100%;
+            max-width: 470px;
+            height: 470px;
+            overflow: auto;
+        }
+        #r-result ul{
+            margin-top:10px;
+            padding-left:10px;
+        }
+        #r-result ul li{
+            font-family: Microsoft Arial, "Microsoft Yahei";
+            font-weight: bold;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+        #r-result ul li span{font-weight: normal;color: #885757;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=xxZ8PRIeuZiowXQRZ1rm1ge2"></script>
+</head>
+<body>
+    <div style="max-width:960px;width:100%;margin:auto;padding:20px;">
+        <div style="margin: 10px 0;">
+            <select id="select">
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="天津">天津</option>
+                <option value=" 重庆">重庆</option>
+                <option value=" 黑龙江">黑龙江</option>
+                <option value="吉林">吉林</option>
+                <option value="辽宁">辽宁</option>
+                <option value="内蒙古">内蒙古</option>
+                <option value="宁夏">宁夏</option>
+                <option value="新疆">新疆</option>
+                <option value="青海">青海</option>
+                <option value="甘肃">甘肃</option>
+                <option value="陕西">陕西</option>
+                <option value="河北">河北</option>
+                <option value="河南">河南</option>
+                <option value="山东">山东</option>
+                <option value="山西">山西</option>
+                <option value="湖北">湖北</option>
+                <option value="湖南">湖南</option>
+                <option value="安徽">安徽</option>
+                <option value="江苏">江苏</option>
+                <option value=" 浙江">浙江</option>
+                <option value="江西">江西</option>
+                <option value="广东">广东</option>
+                <option value="广西">广西</option>
+                <option value="福建">福建</option>
+                <option value="四川">四川</option>
+                <option value="云南">云南</option>
+                <option value="贵州">贵州</option>
+                <option value="西藏">西藏</option>
+                <option value="海南">海南</option>
+                <option value="香港">香港</option>
+                <option value="澳门">澳门</option>
+                <option value="台湾">台湾</option>
+            </select>
+            <input type="text" id="searChIpt"/>
+            <button id="searChBtn">搜索</button>
+            <button id="fada">放大一倍</button>
+            <button id="suoxiao">缩小一倍</button>
+        </div>
+        <div id="search">
+            <div id="map" style="max-width: 470px;margin-right: 10px;width:100%;height:470px;border:2px solid red;margin-bottom:20px;float:left;"></div>
+            <div id="r-result" >
+                <h2>搜索结果</h2>
+                <ul id="storeData"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+       window.onload=function(){
+           var Btn=document.getElementById('searChBtn');
+
+           var Text=document.getElementById('searChIpt');
+
+           var save=document.getElementById('select');
+
+           var oUl=document.getElementById("storeData");
+           Btn.addEventListener('click',keyWord);
+           Text.addEventListener('change',keyWord);
+
+           var map = new BMap.Map("map");
+           var point = new BMap.Point(116.331398,39.897445);
+           map.centerAndZoom(point,12);
+
+           function myFun(result){
+               var cityName = result.name;
+               map.setCenter(cityName);
+           };
+           var myCity = new BMap.LocalCity();
+           myCity.get(myFun);
+           map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+           map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+
+
+           function keyWord(){
+               map = new BMap.Map("map");
+               map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+               map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+               map.centerAndZoom(save.value, 12);
+                       //本地检索数据接口
+                var options = {
+                    onSearchComplete: function(results){
+                        var wr=results.wr;
+                        // 判断状态是否正确
+                        if (local.getStatus() == BMAP_STATUS_SUCCESS){
+                            var s = '';
+                            for (var i = 0; i < results.getCurrentNumPois(); i ++){
+                                s+='<li lat="'+wr[i].point.lat+'" lng="'+wr[i].point.lng+'"><p>'+i+'&nbsp;:&nbsp;'+wr[i].title+'' +
+                                        '</p><span style="font-size:12px;">'+wr[i].address+'</span></li>';
+                            };
+                            oUl.innerHTML = s;
+                        }
+                    },
+                    renderOptions:{map: map},
+                    pageCapacity:100
+                };
+                //关键字搜索
+                var local = new BMap.LocalSearch(map,options);
+                local.search(Text.value);
+           }
+
+
+           oUl.onclick=function(ev){
+                var e=ev||window.event;
+                var tag= e.srcElement|| e.tagName;
+                if(tag.tagName.toLowerCase()=='p'){
+                    var par=tag.parentNode;
+                    var lat=par.getAttribute('lat');
+                    var lng=par.getAttribute('lng');
+                    var allOver=map.getOverlays();  //返回地图上的所有覆盖物
+                    var point=new BMap.Point(lng,lat);
+                    map.centerAndZoom(point,15);
+                    var marker = new BMap.Marker(point);  // 创建标注
+                    map.addOverlay(marker);               // 将标注添加到地图中
+                    console.log(allOver);
+                    for(var i= 0,len=allOver.length;i<len;i++){
+                        var thisPoint=allOver[i].point;
+                        if(allOver[i].toString()=='[object Marker]'){
+                            if(thisPoint.lat==point.lat&&thisPoint.lng==point.lng){
+                                map.removeOverlay(allOver[i]);
+                                marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+                            }else{
+                                map.addOverlay(allOver[i]);
+                                allOver[i].setAnimation();
+                            };
+                        };
+                    };
+                };
+           };
+
+
+
+           //放大  缩小
+           var Fada=document.getElementById('fada');
+           var Suoxiao=document.getElementById('suoxiao');
+
+           Fada.onclick=function(){
+               map.zoomIn();
+           }
+           Suoxiao.onclick=function(){
+               map.zoomOut();
+           }
+
+
+
+       }
+
+    </script>
+</body>
+</html>
