@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="pagaination.js"></script>
+</head>
+<body>
+    <style>
+        *{margin:0;padding:0;border:0;list-style:none;text-decoration:none;}
+        #content{margin:50px auto;position:absolute;top:0;bottom:0;left:0;right:0;width:960px;}
+        #Cpage{margin: auto  }
+        #Cpage>a{cursor:pointer;}
+        #Cpage>a.disibled{color:gray;cursor: default;}
+        .PagClickBtn a{display: inline-block;width:25px;height:25px;text-align:center;line-height:25px;border:1px solid darkgrey;margin:0 5px;border-radius:5px;color:black;transition: 0.5s;box-shadow:1px -35px 20px black;}
+        .PagClickBtn a:hover{color:blue;box-shadow:1px -35px 10px blue;}
+        .PagClickBtn a.active{box-shadow:1px -35px 20px red;}
+        .PagClickBtn a.active,.PagClickBtn a.active:hover{color:red;}
+    </style>
+    <div id="content">
+        <!--<div class="Cpage" id="Cpage">-->
+            <!--<a href="javascript:;" class="pagesBtn" id="prev">上一页</a>-->
+            <!--<span class="PagClickBtn">-->
+                <!--<a href="javascript:;" class="hover">1</a>-->
+                <!--<a href="javascript:;" class="active">2</a>-->
+                <!--<a href="javascript:;">3</a>-->
+                <!--<a href="javascript:;">4</a>-->
+                <!--<a href="javascript:;">5</a>-->
+                <!--<a href="javascript:;">6</a>-->
+            <!--</span>-->
+            <!--<a href="javascript:;" class="pagesBtn" id="page">下一页</a>-->
+        <!--</div>-->
+    </div>
+</body>
+</html>
