@@ -1,0 +1,38 @@
+@V:25px;
+.wh(@w:auto,@h:auto){
+  width:@w;
+  height:@h;
+}
+.content(){
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+}
+.color(@color){
+  color:@color;
+}
+.margin(@margin){
+  margin:@margin;
+}
+
+*{margin:0;padding:0;border:0;list-style:none;text-decoration:none;}
+#content{
+  .content();
+  .margin(50px auto);
+  #Cpage{
+    .margin(auto);
+    >a{
+      cursor:pointer;
+    }
+  }
+}
+.PagClickBtn a{
+  .wh(25px,25px);display: inline-block;  text-align:center;line-height:25px;border:1px solid darkgrey;margin:0 5px;border-radius:5px;color:black;transition: 0.5s;box-shadow:1px -35px 20px black;
+}
+.PagClickBtn a:hover{color:blue;box-shadow:1px -35px 10px blue;}
+.PagClickBtn a.active{box-shadow:1px -35px 20px red;}
+
+.PagClickBtn a.active,.PagClickBtn a.active:hover{color:red;}

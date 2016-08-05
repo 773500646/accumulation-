@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+  text-decoration: none;
+}
+#content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin: 50px auto;
+}
+#content #Cpage {
+  margin: auto;
+}
+#content #Cpage > a {
+  cursor: pointer;
+}
+.PagClickBtn a {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  text-align: center;
+  line-height: 25px;
+  border: 1px solid darkgrey;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: black;
+  transition: 0.5s;
+  box-shadow: 1px -35px 20px black;
+}
+.PagClickBtn a:hover {
+  color: blue;
+  box-shadow: 1px -35px 10px blue;
+}
+.PagClickBtn a.active {
+  box-shadow: 1px -35px 20px red;
+}
+.PagClickBtn a.active,
+.PagClickBtn a.active:hover {
+  color: red;
+}
